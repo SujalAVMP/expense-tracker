@@ -6,7 +6,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="ExpenseTracker">
-    <meta name="theme-color" content="#007bff">
+    <meta name="theme-color" content="#0078FF">
     <meta name="mobile-web-app-capable" content="yes">
     <title>Expense Tracker</title>
     
@@ -19,19 +19,25 @@
     
     <style>
         :root {
-            --primary-color: #007bff;
-            --primary-dark: #0056b3;
-            --secondary-color: #6c757d;
-            --success-color: #28a745;
-            --danger-color: #dc3545;
-            --warning-color: #ffc107;
-            --light-gray: #f8f9fa;
-            --medium-gray: #e9ecef;
-            --dark-gray: #343a40;
-            --white: #ffffff;
+            --primary-color: #0078FF;
+            --primary-dark: #0056C8;
+            --primary-light: #E6F0FF;
+            --secondary-color: #6B7280;
+            --success-color: #10B981;
+            --danger-color: #EF4444;
+            --warning-color: #F59E0B;
+            --light-gray: #F9FAFB;
+            --medium-gray: #E5E7EB;
+            --dark-gray: #374151;
+            --white: #FFFFFF;
             --black: #000000;
-            --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            --border-radius: 12px;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --border-radius-sm: 8px;
+            --border-radius: 16px;
+            --border-radius-lg: 24px;
             --transition: all 0.3s ease;
             --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
@@ -49,7 +55,7 @@
             width: 100%;
             position: fixed;
             overflow: hidden;
-            background-color: #f5f5f7;
+            background-color: #F5F7FA;
             color: var(--dark-gray);
         }
         
@@ -65,7 +71,7 @@
         header {
             background-color: var(--primary-color);
             color: white;
-            padding: 15px;
+            padding: 20px;
             text-align: center;
             position: sticky;
             top: 0;
@@ -74,52 +80,75 @@
             box-shadow: var(--shadow);
         }
         
+        header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        
         .content-area {
             flex: 1;
             overflow-y: auto;
             overflow-x: hidden;
             -webkit-overflow-scrolling: touch;
-            padding-bottom: 100px; /* Space for bottom navigation */
+            padding-bottom: 140px; /* Increased space for bottom navigation */
+            background-color: #F5F7FA;
         }
         
         .container {
             max-width: 600px;
             margin: 0 auto;
-            padding: 15px;
+            padding: 16px;
         }
         
         /* Navigation */
         .bottom-nav {
             position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
+            bottom: 25px; /* Raised up to avoid system gesture bar */
+            left: 16px;
+            right: 16px;
             background-color: var(--white);
             display: flex;
             justify-content: space-around;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-            padding: 10px 0;
+            box-shadow: var(--shadow-lg);
+            padding: 12px 0;
             z-index: 100;
+            border-radius: 50px;
+            margin-bottom: env(safe-area-inset-bottom, 0);
         }
         
         .nav-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 5px;
+            padding: 8px 0;
             font-size: 12px;
             color: var(--secondary-color);
             transition: var(--transition);
             text-decoration: none;
+            width: 33%;
+            position: relative;
         }
         
         .nav-item.active {
             color: var(--primary-color);
         }
         
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+        }
+        
         .nav-icon {
             font-size: 24px;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
         }
         
         /* Card styles */
@@ -127,15 +156,16 @@
             background-color: var(--white);
             border-radius: var(--border-radius);
             box-shadow: var(--shadow);
-            margin-bottom: 15px;
-            padding: 15px;
+            margin-bottom: 16px;
+            padding: 20px;
             transition: var(--transition);
+            border: 1px solid rgba(0,0,0,0.03);
         }
         
         .card-title {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 600;
-            margin-bottom: 15px;
+            margin-bottom: 16px;
             color: var(--dark-gray);
         }
         
@@ -144,28 +174,36 @@
             display: flex;
             justify-content: space-between;
             margin-bottom: 20px;
+            gap: 12px;
         }
         
         .overview-box {
             flex: 1;
-            padding: 15px;
+            padding: 16px;
             text-align: center;
             border-radius: var(--border-radius);
             background-color: var(--white);
             box-shadow: var(--shadow);
-            margin: 0 5px;
+            border: 1px solid rgba(0,0,0,0.03);
+            transition: transform 0.2s ease;
+        }
+        
+        .overview-box:hover, .overview-box:active {
+            transform: translateY(-2px);
         }
         
         .overview-box h3 {
             font-size: 14px;
             color: var(--secondary-color);
-            margin-bottom: 5px;
-            font-weight: 600;
+            margin-bottom: 8px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
         .overview-box p {
-            font-size: 20px;
-            font-weight: bold;
+            font-size: 22px;
+            font-weight: 700;
             color: var(--dark-gray);
         }
         
@@ -174,19 +212,20 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 16px;
             background-color: var(--white);
             border-radius: var(--border-radius);
-            padding: 10px 15px;
+            padding: 12px 16px;
             box-shadow: var(--shadow);
+            border: 1px solid rgba(0,0,0,0.03);
         }
         
         .month-arrow {
-            font-size: 20px;
-            padding: 10px;
+            font-size: 18px;
+            padding: 12px;
             cursor: pointer;
             color: var(--primary-color);
-            background: none;
+            background-color: var(--primary-light);
             border: none;
             border-radius: 50%;
             width: 40px;
@@ -198,38 +237,44 @@
         }
         
         .month-arrow:hover, .month-arrow:active {
-            background-color: var(--light-gray);
+            background-color: var(--primary-color);
+            color: var(--white);
         }
         
         .month-display {
-            font-weight: bold;
-            font-size: 16px;
+            font-weight: 600;
+            font-size: 18px;
+            color: var(--dark-gray);
         }
         
         /* Tabs */
         .tabs {
             display: flex;
-            margin-bottom: 15px;
-            background-color: var(--white);
-            border-radius: var(--border-radius);
+            margin-bottom: 16px;
+            background-color: var(--light-gray);
+            border-radius: 50px;
             overflow: hidden;
-            box-shadow: var(--shadow);
+            padding: 4px;
+            box-shadow: var(--shadow-sm);
         }
         
         .tab {
             flex: 1;
             text-align: center;
-            padding: 15px;
-            background-color: var(--white);
+            padding: 12px;
+            background-color: transparent;
             color: var(--secondary-color);
             transition: var(--transition);
             border: none;
             font-size: 16px;
+            font-weight: 500;
+            border-radius: 50px;
         }
         
         .tab.active {
-            background-color: var(--primary-color);
-            color: var(--white);
+            background-color: var(--white);
+            color: var(--primary-color);
+            box-shadow: var(--shadow-sm);
         }
         
         .tab-content {
@@ -243,11 +288,12 @@
         /* Filters */
         .filters {
             display: flex;
-            margin-bottom: 15px;
+            margin-bottom: 16px;
             overflow-x: auto;
-            padding: 5px;
+            padding: 4px;
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none; /* Firefox */
+            gap: 8px;
         }
         
         .filters::-webkit-scrollbar {
@@ -255,13 +301,14 @@
         }
         
         .filter-btn {
-            background-color: var(--white);
-            border: 1px solid var(--medium-gray);
-            border-radius: 20px;
-            padding: 8px 16px;
+            background-color: var(--light-gray);
+            border: none;
+            border-radius: 50px;
+            padding: 10px 20px;
             font-size: 14px;
+            font-weight: 500;
             color: var(--secondary-color);
-            margin-right: 10px;
+            margin-right: 8px;
             white-space: nowrap;
             transition: var(--transition);
             flex-shrink: 0;
@@ -270,7 +317,6 @@
         .filter-btn.active {
             background-color: var(--primary-color);
             color: var(--white);
-            border-color: var(--primary-color);
         }
         
         /* Expense items */
@@ -278,8 +324,14 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 0;
+            padding: 16px 0;
             border-bottom: 1px solid var(--medium-gray);
+            transition: background-color 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .expense-item:active {
+            background-color: var(--light-gray);
         }
         
         .expense-item:last-child {
@@ -293,33 +345,34 @@
         .expense-title {
             font-weight: 600;
             font-size: 16px;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
             display: flex;
             align-items: center;
         }
         
         .expense-category {
             font-size: 12px;
-            color: var(--secondary-color);
-            background-color: var(--light-gray);
-            padding: 2px 8px;
-            border-radius: 10px;
+            color: var(--primary-color);
+            background-color: var(--primary-light);
+            padding: 2px 10px;
+            border-radius: 50px;
             margin-left: 8px;
+            font-weight: 500;
         }
         
         .expense-date {
-            font-size: 12px;
+            font-size: 13px;
             color: var(--secondary-color);
         }
         
         .expense-description {
             font-size: 14px;
             color: var(--secondary-color);
-            margin-top: 5px;
+            margin-top: 6px;
         }
         
         .expense-amount {
-            font-weight: bold;
+            font-weight: 700;
             font-size: 16px;
             color: var(--danger-color);
         }
@@ -327,8 +380,8 @@
         /* Action buttons */
         .add-expense-btn {
             position: fixed;
-            bottom: 80px;
-            right: 20px;
+            bottom: 100px; /* Adjusted to work better with raised nav bar */
+            right: 24px;
             width: 60px;
             height: 60px;
             background-color: var(--primary-color);
@@ -338,7 +391,7 @@
             justify-content: center;
             align-items: center;
             font-size: 30px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: var(--shadow-lg);
             z-index: 99;
             transition: var(--transition);
             border: none;
@@ -361,38 +414,56 @@
             background-color: rgba(0, 0, 0, 0.5);
             z-index: 200;
             justify-content: center;
-            align-items: center;
-            padding: 20px;
+            align-items: flex-end;  /* Position from bottom */
+            padding: 0;
         }
         
         .modal-content {
             background-color: var(--white);
             width: 100%;
-            max-width: 500px;
-            border-radius: var(--border-radius);
-            padding: 20px;
             max-height: 90vh;
+            border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+            padding: 24px;
             overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            animation: slideUp 0.3s ease-out;
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
         }
         
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
         
         .modal-title {
-            font-size: 20px;
-            font-weight: 600;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--dark-gray);
         }
         
         .close-modal {
-            font-size: 24px;
+            font-size: 28px;
             background: none;
             border: none;
             cursor: pointer;
             color: var(--secondary-color);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+        
+        .close-modal:hover, .close-modal:active {
+            background-color: var(--light-gray);
         }
         
         /* Form styles */
@@ -401,29 +472,31 @@
             margin-bottom: 8px;
             font-weight: 600;
             color: var(--dark-gray);
-            font-size: 14px;
+            font-size: 15px;
         }
         
         form input, form select, form textarea {
             width: 100%;
-            padding: 12px;
-            margin-bottom: 15px;
+            padding: 14px;
+            margin-bottom: 16px;
             border: 1px solid var(--medium-gray);
-            border-radius: 8px;
+            border-radius: 12px;
             font-size: 16px;
             transition: var(--transition);
+            background-color: var(--light-gray);
         }
         
         form input:focus, form select:focus, form textarea:focus {
             outline: none;
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+            box-shadow: 0 0 0 3px rgba(0, 120, 255, 0.15);
+            background-color: var(--white);
         }
         
         button {
-            padding: 12px 20px;
+            padding: 14px 20px;
             border: none;
-            border-radius: 8px;
+            border-radius: 12px;
             cursor: pointer;
             font-size: 16px;
             font-weight: 600;
@@ -437,6 +510,7 @@
         
         .btn-primary:hover, .btn-primary:active {
             background-color: var(--primary-dark);
+            transform: translateY(-2px);
         }
         
         .btn-danger {
@@ -445,7 +519,8 @@
         }
         
         .btn-danger:hover, .btn-danger:active {
-            background-color: #bd2130;
+            background-color: #E02D2D;
+            transform: translateY(-2px);
         }
         
         .btn-block {
@@ -457,30 +532,33 @@
         .year-picker {
             display: flex;
             justify-content: center;
-            margin-bottom: 15px;
-            background-color: var(--white);
-            border-radius: var(--border-radius);
+            margin-bottom: 16px;
+            background-color: var(--light-gray);
+            border-radius: 50px;
             overflow: hidden;
-            box-shadow: var(--shadow);
+            padding: 4px;
         }
         
         .year-btn {
-            padding: 10px 15px;
+            padding: 10px 20px;
             border: none;
-            background-color: var(--white);
+            background-color: transparent;
             color: var(--secondary-color);
             transition: var(--transition);
+            border-radius: 50px;
+            font-weight: 500;
         }
         
         .year-btn.active {
-            background-color: var(--primary-color);
-            color: var(--white);
+            background-color: var(--white);
+            color: var(--primary-color);
+            box-shadow: var(--shadow-sm);
         }
         
         /* Charts */
         .chart-container {
             height: 200px;
-            margin: 20px 0;
+            margin: 24px 0;
             display: flex;
             align-items: flex-end;
             justify-content: space-between;
@@ -494,6 +572,10 @@
             border-top-left-radius: 4px;
             border-top-right-radius: 4px;
             transition: var(--transition);
+        }
+        
+        .bar:hover {
+            filter: brightness(1.1);
         }
         
         .bar-label {
@@ -526,24 +608,32 @@
         }
         
         .pie-legend {
-            margin-top: 20px;
+            margin-top: 24px;
         }
         
         .legend-item {
             display: flex;
             align-items: center;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
+            padding: 8px;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+        
+        .legend-item:hover {
+            background-color: var(--light-gray);
         }
         
         .legend-color {
             width: 16px;
             height: 16px;
             border-radius: 4px;
-            margin-right: 8px;
+            margin-right: 12px;
         }
         
         .legend-text {
             flex: 1;
+            font-weight: 500;
         }
         
         .legend-value {
@@ -552,49 +642,56 @@
         
         /* Settings styles */
         .settings-section {
-            margin-bottom: 30px;
+            margin-bottom: 32px;
         }
         
         .settings-heading {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 15px;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--dark-gray);
         }
         
         .settings-description {
-            margin-bottom: 15px;
+            margin-bottom: 16px;
             color: var(--secondary-color);
+            font-size: 15px;
         }
         
         .button-group {
             display: flex;
-            gap: 10px;
+            gap: 12px;
+        }
+        
+        .button-group .btn-primary {
+            flex: 1;
         }
         
         .app-info {
-            font-size: 14px;
+            font-size: 15px;
             color: var(--secondary-color);
         }
         
         .app-info p {
-            margin-bottom: 5px;
+            margin-bottom: 8px;
         }
         
         /* Empty state */
         .empty-state {
             text-align: center;
-            padding: 30px 20px;
+            padding: 40px 20px;
             color: var(--secondary-color);
         }
         
         .empty-state-icon {
             font-size: 48px;
-            margin-bottom: 15px;
+            margin-bottom: 16px;
+            opacity: 0.7;
         }
         
         .empty-state-text {
             font-size: 16px;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
         
         /* Animations */
@@ -619,29 +716,29 @@
         }
         
         .toast {
-            background-color: var(--dark-gray);
-            color: var(--white);
-            padding: 15px;
+            background-color: var(--white);
+            color: var(--dark-gray);
+            padding: 16px;
             border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
+            box-shadow: var(--shadow-lg);
             margin-bottom: 10px;
             animation: fadeIn 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            border-left: 4px solid var(--primary-color);
         }
         
         .toast-success {
-            background-color: var(--success-color);
+            border-left-color: var(--success-color);
         }
         
         .toast-error {
-            background-color: var(--danger-color);
+            border-left-color: var(--danger-color);
         }
         
         .toast-warning {
-            background-color: var(--warning-color);
-            color: var(--dark-gray);
+            border-left-color: var(--warning-color);
         }
         
         .toast-message {
@@ -696,19 +793,19 @@
             }
             
             .overview-box p {
-                font-size: 16px;
+                font-size: 18px;
             }
             
             .month-display {
-                font-size: 14px;
+                font-size: 16px;
             }
             
             .expense-title {
-                font-size: 14px;
+                font-size: 15px;
             }
             
             .expense-amount {
-                font-size: 14px;
+                font-size: 15px;
             }
         }
         
@@ -716,11 +813,19 @@
         @media (display-mode: standalone) {
             .content-area {
                 padding-top: env(safe-area-inset-top);
-                padding-bottom: calc(80px + env(safe-area-inset-bottom));
+                padding-bottom: calc(140px + env(safe-area-inset-bottom)); /* Increased space */
             }
             
             .bottom-nav {
-                padding-bottom: env(safe-area-inset-bottom);
+                bottom: calc(25px + env(safe-area-inset-bottom)); /* Adjusted for safe area */
+            }
+            
+            .add-expense-btn {
+                bottom: calc(100px + env(safe-area-inset-bottom)); /* Adjusted for safe area */
+            }
+            
+            header {
+                padding-top: max(20px, env(safe-area-inset-top));
             }
         }
     </style>
@@ -759,8 +864,8 @@
                     </div>
                 </div>
                 
-                <!-- Tabs -->
-                <div class="tabs">
+                <!-- Tabs (only shown on dashboard) -->
+                <div class="tabs" id="dashboardTabs">
                     <button class="tab active" data-tab="expenses">Expenses</button>
                     <button class="tab" data-tab="statistics">Statistics</button>
                 </div>
@@ -814,14 +919,14 @@
                                 <button id="importDataBtn" class="btn-primary">Import Data</button>
                             </div>
                             
-                            <div id="importInstructions" style="display: none; margin-top: 15px; padding: 15px; background-color: #f8f9fa; border-radius: 8px;">
-                                <h4 style="margin-bottom: 10px;">How to Import:</h4>
-                                <ol style="margin-left: 20px;">
+                            <div id="importInstructions" style="display: none; margin-top: 16px; padding: 16px; background-color: var(--light-gray); border-radius: 12px;">
+                                <h4 style="margin-bottom: 12px; font-size: 16px;">How to Import:</h4>
+                                <ol style="margin-left: 20px; color: var(--secondary-color);">
                                     <li>Select your expense data file (.json)</li>
                                     <li>Confirm to replace current data</li>
                                     <li>Your expenses will be restored</li>
                                 </ol>
-                                <input type="file" id="fileInput" accept=".json" style="margin-top: 15px; width: 100%;">
+                                <input type="file" id="fileInput" accept=".json" style="margin-top: 16px; width: 100%;">
                             </div>
                         </div>
                         
@@ -876,7 +981,7 @@
                 <input type="text" id="expenseTitle" placeholder="e.g. Groceries" required>
                 
                 <label for="expenseAmount">Amount (₹)</label>
-                <input type="number" id="expenseAmount" min="0.01" step="0.01" placeholder="0.00" required>
+                <input type="number" id="expenseAmount" min="1" step="1" placeholder="0" required>
                 
                 <label for="expenseDate">Date</label>
                 <input type="date" id="expenseDate" required>
@@ -941,8 +1046,8 @@
                 description: "Track and manage your expenses",
                 start_url: "/",
                 display: "standalone",
-                background_color: "#f5f5f7",
-                theme_color: "#007bff",
+                background_color: "#F5F7FA",
+                theme_color: "#0078FF",
                 icons: [
                     {
                         src: "/api/placeholder/192/192",
@@ -1051,6 +1156,7 @@
         let currentFilter = 'all';
         let currentDate = new Date();
         let currentView = 'dashboard';
+        let selectedHistoryYear = null;
         
         // DOM Elements
         const expensesList = document.getElementById('expensesList');
@@ -1083,7 +1189,7 @@
         
         // Helper functions
         const formatCurrency = (amount) => {
-            return '₹' + parseFloat(amount).toFixed(2);
+            return '₹' + Math.round(parseFloat(amount)).toLocaleString('en-IN');
         };
         
         const formatDate = (dateString, format = 'short') => {
@@ -1219,15 +1325,25 @@
             const years = [...new Set(expenses.map(expense => new Date(expense.date).getFullYear()))];
             years.sort((a, b) => b - a); // Sort descending
             
+            // Set the default selected year if not already set
+            if (!selectedHistoryYear && years.length > 0) {
+                selectedHistoryYear = years[0];
+            } else if (years.length === 0) {
+                selectedHistoryYear = new Date().getFullYear();
+            }
+            
             // Update year picker
             renderYearPicker(years);
             
-            // Get current selected year (default to latest year)
-            const selectedYear = years.length > 0 ? years[0] : new Date().getFullYear();
+            // Filter expenses by selected year
+            const filteredByYear = getExpensesByYear(expenses, selectedHistoryYear);
             
-            // Filter expenses by year
-            const filteredByYear = getExpensesByYear(expenses, selectedYear);
-            
+            // Render the filtered expenses
+            renderHistoryItems(filteredByYear, selectedHistoryYear);
+        };
+        
+        // Render history items for a specific year
+        const renderHistoryItems = (filteredByYear, year) => {
             // Sort by date (newest first)
             filteredByYear.sort((a, b) => new Date(b.date) - new Date(a.date));
             
@@ -1239,7 +1355,7 @@
                 historyList.innerHTML = `
                     <div class="empty-state">
                         <div class="empty-state-icon">📝</div>
-                        <div class="empty-state-text">No expenses found for ${selectedYear}.</div>
+                        <div class="empty-state-text">No expenses found for ${year}.</div>
                     </div>
                 `;
                 return;
@@ -1318,17 +1434,24 @@
                 years = [new Date().getFullYear()];
             }
             
+            // Track the currently selected year
+            let selectedYear = selectedHistoryYear || years[0];
+            
             years.forEach(year => {
                 const yearBtn = document.createElement('button');
                 yearBtn.className = 'year-btn';
                 yearBtn.textContent = year;
+                yearBtn.dataset.year = year;
                 
-                // Set active class for current year
-                if (year === years[0]) {
+                // Set active class for selected year
+                if (parseInt(year) === parseInt(selectedYear)) {
                     yearBtn.classList.add('active');
                 }
                 
                 yearBtn.addEventListener('click', () => {
+                    // Store the selected year
+                    selectedHistoryYear = parseInt(year);
+                    
                     // Remove active class from all buttons
                     document.querySelectorAll('.year-btn').forEach(btn => {
                         btn.classList.remove('active');
@@ -1337,8 +1460,9 @@
                     // Add active class to clicked button
                     yearBtn.classList.add('active');
                     
-                    // Re-render history with selected year
-                    renderHistory();
+                    // Filter expenses by the selected year
+                    const filteredByYear = getExpensesByYear(expenses, selectedHistoryYear);
+                    renderHistoryItems(filteredByYear, selectedHistoryYear);
                 });
                 
                 yearPicker.appendChild(yearBtn);
@@ -1557,7 +1681,7 @@
                 categoryItem.innerHTML = `
                     <div class="expense-title">${category}</div>
                     ${category !== 'Other' ? `
-                        <button class="delete-category" data-category="${category}">
+                        <button class="delete-category" data-category="${category}" style="background: none; border: none; color: var(--danger-color); padding: 8px; border-radius: 50%;">
                             ❌
                         </button>
                     ` : ''}
@@ -1677,7 +1801,7 @@
                 deleteBtn.id = 'deleteExpenseBtn';
                 deleteBtn.type = 'button';
                 deleteBtn.className = 'btn-danger btn-block';
-                deleteBtn.style.marginTop = '10px';
+                deleteBtn.style.marginTop = '16px';
                 deleteBtn.textContent = 'Delete Expense';
                 
                 deleteBtn.addEventListener('click', () => {
@@ -1856,6 +1980,10 @@
             // Show appropriate content
             tabs.forEach(tab => tab.classList.remove('active'));
             tabContents.forEach(content => content.classList.remove('active'));
+            
+            // Show/hide dashboard tabs based on view
+            const dashboardTabs = document.getElementById('dashboardTabs');
+            dashboardTabs.style.display = (view === 'dashboard') ? 'flex' : 'none';
             
             if (view === 'dashboard') {
                 document.querySelector('[data-tab="expenses"]').classList.add('active');
