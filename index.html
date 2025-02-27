@@ -91,7 +91,7 @@
             overflow-y: auto;
             overflow-x: hidden;
             -webkit-overflow-scrolling: touch;
-            padding-bottom: 140px; /* Increased space for bottom navigation */
+            padding-bottom: 128px; /* Increased space for bottom navigation */
             background-color: #F5F7FA;
         }
         
@@ -429,7 +429,7 @@
         /* Action buttons */
         .add-expense-btn {
             position: fixed;
-            bottom: 100px; /* Adjusted to work better with raised nav bar */
+            bottom: 128px; 
             right: 24px;
             width: 60px;
             height: 60px;
@@ -995,7 +995,7 @@
         @media (display-mode: standalone) {
             .content-area {
                 padding-top: env(safe-area-inset-top);
-                padding-bottom: calc(140px + env(safe-area-inset-bottom)); /* Increased space */
+                padding-bottom: calc(128px + env(safe-area-inset-bottom)); /* Increased space */
             }
             
             .bottom-nav {
@@ -1003,7 +1003,7 @@
             }
             
             .add-expense-btn {
-                bottom: calc(100px + env(safe-area-inset-bottom)); /* Adjusted for safe area */
+                bottom: calc(128px + env(safe-area-inset-bottom)); /* Adjusted for safe area */
             }
             
             header {
