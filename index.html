@@ -115,6 +115,9 @@
             z-index: 100;
             border-radius: 50px;
             margin-bottom: env(safe-area-inset-bottom, 0);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            /* Adding a visual separator */
+            outline: 4px solid rgba(255, 255, 255, 0.8);
         }
         
         .nav-item {
@@ -338,6 +341,35 @@
             border-bottom: none;
         }
         
+        .expense-content {
+            display: flex;
+            flex: 1;
+        }
+        
+        .expense-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-sm);
+            background-color: rgba(0, 0, 0, 0.04);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            margin-right: 12px;
+            color: var(--dark-gray);
+            flex-shrink: 0;
+        }
+        
+        /* Subtle category colors */
+        .expense-icon-food { background-color: rgba(76, 175, 80, 0.15); color: #2E7D32; }
+        .expense-icon-transport { background-color: rgba(33, 150, 243, 0.15); color: #1565C0; }
+        .expense-icon-housing { background-color: rgba(156, 39, 176, 0.15); color: #6A1B9A; }
+        .expense-icon-utilities { background-color: rgba(255, 152, 0, 0.15); color: #EF6C00; }
+        .expense-icon-entertainment { background-color: rgba(233, 30, 99, 0.15); color: #C2185B; }
+        .expense-icon-shopping { background-color: rgba(0, 188, 212, 0.15); color: #00838F; }
+        .expense-icon-healthcare { background-color: rgba(244, 67, 54, 0.15); color: #C62828; }
+        .expense-icon-other { background-color: rgba(96, 125, 139, 0.15); color: #455A64; }
+        
         .expense-details {
             flex: 1;
         }
@@ -360,6 +392,16 @@
             font-weight: 500;
         }
         
+        /* Subtle category colors for tags */
+        .expense-category-food { background-color: rgba(76, 175, 80, 0.15); color: #2E7D32; }
+        .expense-category-transport { background-color: rgba(33, 150, 243, 0.15); color: #1565C0; }
+        .expense-category-housing { background-color: rgba(156, 39, 176, 0.15); color: #6A1B9A; }
+        .expense-category-utilities { background-color: rgba(255, 152, 0, 0.15); color: #EF6C00; }
+        .expense-category-entertainment { background-color: rgba(233, 30, 99, 0.15); color: #C2185B; }
+        .expense-category-shopping { background-color: rgba(0, 188, 212, 0.15); color: #00838F; }
+        .expense-category-healthcare { background-color: rgba(244, 67, 54, 0.15); color: #C62828; }
+        .expense-category-other { background-color: rgba(96, 125, 139, 0.15); color: #455A64; }
+        
         .expense-date {
             font-size: 13px;
             color: var(--secondary-color);
@@ -375,6 +417,13 @@
             font-weight: 700;
             font-size: 16px;
             color: var(--danger-color);
+        }
+        
+        .expense-type {
+            font-size: 12px;
+            color: var(--secondary-color);
+            margin-top: 4px;
+            text-align: right;
         }
         
         /* Action buttons */
@@ -704,6 +753,62 @@
             animation: fadeIn 0.3s ease;
         }
         
+        /* Toggle switch for dark mode */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+        
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+        }
+        
+        input:checked + .slider {
+            background-color: var(--primary-color);
+        }
+        
+        input:focus + .slider {
+            box-shadow: 0 0 1px var(--primary-color);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        
+        .slider.round {
+            border-radius: 34px;
+        }
+        
+        .slider.round:before {
+            border-radius: 50%;
+        }
+        
         /* Toast notifications */
         .toast-container {
             position: fixed;
@@ -753,37 +858,114 @@
             padding: 0 5px;
         }
         
-        /* Category-specific colors */
-        .category-food {
-            background-color: #4CAF50;
+        /* Dark mode styles */
+        body.dark-mode {
+            background-color: #171A21;
+            color: #FFFFFF;
         }
         
-        .category-transport {
-            background-color: #2196F3;
+        body.dark-mode .content-area {
+            background-color: #171A21;
         }
         
-        .category-housing {
-            background-color: #9C27B0;
+        body.dark-mode header {
+            background-color: #202430;
         }
         
-        .category-utilities {
-            background-color: #FF9800;
+        body.dark-mode .card, 
+        body.dark-mode .overview-box, 
+        body.dark-mode .month-picker,
+        body.dark-mode .bottom-nav,
+        body.dark-mode .tabs,
+        body.dark-mode .year-picker,
+        body.dark-mode .modal-content,
+        body.dark-mode .toast {
+            background-color: #202430;
+            border-color: rgba(255, 255, 255, 0.1);
+            color: #FFFFFF;
         }
         
-        .category-entertainment {
-            background-color: #E91E63;
+        body.dark-mode .tab, 
+        body.dark-mode .filter-btn, 
+        body.dark-mode .year-btn {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.7);
         }
         
-        .category-shopping {
-            background-color: #00BCD4;
+        body.dark-mode .month-jump-selector,
+        body.dark-mode select {
+            background-color: #202430;
+            color: #FFFFFF;
+            border-color: rgba(255, 255, 255, 0.2);
         }
         
-        .category-healthcare {
-            background-color: #F44336;
+        body.dark-mode .month-display,
+        body.dark-mode .overview-box p,
+        body.dark-mode .overview-box h3 {
+            color: #FFFFFF;
         }
         
-        .category-other {
-            background-color: #607D8B;
+        body.dark-mode .filter-btn.active {
+            background-color: var(--primary-color);
+            color: #FFFFFF;
+        }
+        
+        body.dark-mode .tab.active,
+        body.dark-mode .year-btn.active,
+        body.dark-mode .filter-btn.active {
+            background-color: var(--primary-color);
+            color: #FFFFFF;
+            box-shadow: 0 0 8px rgba(0, 120, 255, 0.4);
+        }
+        
+        body.dark-mode .expense-item {
+            border-bottom-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        body.dark-mode .card-title,
+        body.dark-mode .settings-heading,
+        body.dark-mode .modal-title,
+        body.dark-mode form label,
+        body.dark-mode .app-info strong {
+            color: #FFFFFF;
+        }
+        
+        body.dark-mode .expense-date,
+        body.dark-mode .expense-description,
+        body.dark-mode .expense-type,
+        body.dark-mode .settings-description,
+        body.dark-mode .app-info {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        body.dark-mode input, 
+        body.dark-mode select, 
+        body.dark-mode textarea {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        body.dark-mode input::placeholder, 
+        body.dark-mode textarea::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        body.dark-mode .empty-state {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        body.dark-mode .bar-label,
+        body.dark-mode .bar-value {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        body.dark-mode .text-secondary {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        body.dark-mode .text-tertiary {
+            color: rgba(255, 255, 255, 0.5);
         }
         
         /* Responsive adjustments */
@@ -849,18 +1031,18 @@
                 </div>
                 
                 <!-- Overview Cards -->
-                <div class="overview">
+                <div class="overview" id="dashboardOverview">
                     <div class="overview-box">
                         <h3>TOTAL</h3>
-                        <p id="totalAmount">₹0.00</p>
+                        <p id="totalAmount">₹0</p>
                     </div>
                     <div class="overview-box">
                         <h3>RECURRING</h3>
-                        <p id="recurringAmount">₹0.00</p>
+                        <p id="recurringAmount">₹0</p>
                     </div>
                     <div class="overview-box">
                         <h3>ONE-OFF</h3>
-                        <p id="oneoffAmount">₹0.00</p>
+                        <p id="oneoffAmount">₹0</p>
                     </div>
                 </div>
                 
@@ -897,12 +1079,21 @@
                     </div>
                 </div>
                 
-                <!-- History Tab Content -->
                 <div class="tab-content" data-tab-content="history">
                     <div class="year-picker" id="yearPicker"></div>
                     
+                    <div class="card" id="historyYearSummary">
+                        <!-- Year summary will be added here -->
+                    </div>
+                    
                     <div class="card">
-                        <div class="card-title">All Expenses</div>
+                        <div class="card-title" style="display: flex; justify-content: space-between; align-items: center;">
+                            <span>Monthly Breakdown</span>
+                            <select id="monthJumpSelector" class="month-jump-selector" style="padding: 8px; border-radius: 8px; border: 1px solid var(--medium-gray); background-color: var(--light-gray); color: var(--dark-gray);">
+                                <option value="">Jump to Month</option>
+                                <!-- Month options will be populated dynamically -->
+                            </select>
+                        </div>
                         <div id="historyList"></div>
                     </div>
                 </div>
@@ -934,6 +1125,18 @@
                             <div class="settings-heading">Categories</div>
                             <div class="settings-description">Add or manage expense categories.</div>
                             <button id="manageCategoriesBtn" class="btn-primary">Manage Categories</button>
+                        </div>
+                        
+                        <div class="settings-section">
+                            <div class="settings-heading">Appearance</div>
+                            <div class="settings-description">Customize the look of your app.</div>
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+                                <div>Dark Mode</div>
+                                <label class="switch">
+                                    <input type="checkbox" id="darkModeToggle">
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
                         </div>
                         
                         <div class="settings-section">
@@ -1146,6 +1349,18 @@
             }
         ];
         
+        // Category emoji mapping
+        const categoryEmojis = {
+            'Food': '🍲',
+            'Transport': '🚗',
+            'Housing': '🏠',
+            'Utilities': '💡',
+            'Entertainment': '🎬',
+            'Shopping': '🛍️',
+            'Healthcare': '💊',
+            'Other': '📦'
+        };
+        
         // Default categories
         let categories = [
             'Food', 'Transport', 'Housing', 'Utilities', 
@@ -1186,6 +1401,7 @@
         const categoriesList = document.getElementById('categoriesList');
         const addCategoryForm = document.getElementById('addCategoryForm');
         const manageCategoriesBtn = document.getElementById('manageCategoriesBtn');
+        const dashboardOverview = document.getElementById('dashboardOverview');
         
         // Helper functions
         const formatCurrency = (amount) => {
@@ -1297,17 +1513,26 @@
                 expenseEl.dataset.id = expense.id;
                 
                 const formattedDate = formatDate(expense.date);
+                const emoji = categoryEmojis[expense.category] || '📦';
+                const categoryClass = `expense-category-${expense.category.toLowerCase()}`;
+                const iconClass = `expense-icon-${expense.category.toLowerCase()}`;
                 
                 expenseEl.innerHTML = `
-                    <div class="expense-details">
-                        <div class="expense-title">
-                            ${expense.title}
-                            <span class="expense-category">${expense.category}</span>
+                    <div class="expense-content">
+                        <div class="expense-icon ${iconClass}">${emoji}</div>
+                        <div class="expense-details">
+                            <div class="expense-title">
+                                ${expense.title}
+                                <span class="expense-category ${categoryClass}">${expense.category}</span>
+                            </div>
+                            <div class="expense-date">${formattedDate}</div>
+                            ${expense.description ? `<div class="expense-description">${expense.description}</div>` : ''}
                         </div>
-                        <div class="expense-date">${formattedDate} · ${expense.type === 'recurring' ? 'Recurring' : 'One-off'}</div>
-                        ${expense.description ? `<div class="expense-description">${expense.description}</div>` : ''}
                     </div>
-                    <div class="expense-amount">${formatCurrency(expense.amount)}</div>
+                    <div>
+                        <div class="expense-amount">${formatCurrency(expense.amount)}</div>
+                        <div class="expense-type">${expense.type === 'recurring' ? 'Recurring' : 'One-off'}</div>
+                    </div>
                 `;
                 
                 // Add click handler to view/edit expense
@@ -1350,6 +1575,33 @@
             // Clear list
             historyList.innerHTML = '';
             
+            // Calculate year totals
+            const yearTotal = filteredByYear.reduce((sum, expense) => sum + parseFloat(expense.amount), 0);
+            const recurringTotal = filteredByYear.filter(expense => expense.type === 'recurring')
+                .reduce((sum, expense) => sum + parseFloat(expense.amount), 0);
+            const oneOffTotal = filteredByYear.filter(expense => expense.type === 'one-off')
+                .reduce((sum, expense) => sum + parseFloat(expense.amount), 0);
+            
+            // Add year summary card
+            const historyYearSummary = document.getElementById('historyYearSummary');
+            historyYearSummary.innerHTML = `
+                <div class="card-title">Year ${year} Summary</div>
+                <div class="overview">
+                    <div class="overview-box">
+                        <h3>TOTAL</h3>
+                        <p>${formatCurrency(yearTotal)}</p>
+                    </div>
+                    <div class="overview-box">
+                        <h3>RECURRING</h3>
+                        <p>${formatCurrency(recurringTotal)}</p>
+                    </div>
+                    <div class="overview-box">
+                        <h3>ONE-OFF</h3>
+                        <p>${formatCurrency(oneOffTotal)}</p>
+                    </div>
+                </div>
+            `;
+            
             // Check if empty
             if (filteredByYear.length === 0) {
                 historyList.innerHTML = `
@@ -1358,6 +1610,11 @@
                         <div class="empty-state-text">No expenses found for ${year}.</div>
                     </div>
                 `;
+                
+                // Clear month jump selector
+                const monthJumpSelector = document.getElementById('monthJumpSelector');
+                monthJumpSelector.innerHTML = '<option value="">Jump to Month</option>';
+                
                 return;
             }
             
@@ -1375,18 +1632,26 @@
                 groupedByMonth[monthKey].push(expense);
             });
             
-            // Render grouped expenses
-            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            // Populate month jump selector
+            populateMonthJumpSelector(groupedByMonth);
             
             // Sort months descending
             const sortedMonths = Object.keys(groupedByMonth).sort((a, b) => b - a);
             
+            // Render grouped expenses
+            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            
             sortedMonths.forEach(month => {
                 const monthExpenses = groupedByMonth[month];
                 
-                // Create month header
+                // Create month header with ID for jumping
                 const monthHeader = document.createElement('div');
-                monthHeader.className = 'card-title';
+                monthHeader.id = `month-${month}`;
+                monthHeader.className = 'subtitle';
+                monthHeader.style.marginTop = '16px';
+                monthHeader.style.marginBottom = '12px';
+                monthHeader.style.fontSize = '18px';
+                monthHeader.style.fontWeight = '600';
                 monthHeader.textContent = monthNames[month];
                 historyList.appendChild(monthHeader);
                 
@@ -1401,17 +1666,26 @@
                     expenseEl.dataset.id = expense.id;
                     
                     const formattedDate = formatDate(expense.date);
+                    const emoji = categoryEmojis[expense.category] || '📦';
+                    const categoryClass = `expense-category-${expense.category.toLowerCase()}`;
+                    const iconClass = `expense-icon-${expense.category.toLowerCase()}`;
                     
                     expenseEl.innerHTML = `
-                        <div class="expense-details">
-                            <div class="expense-title">
-                                ${expense.title}
-                                <span class="expense-category">${expense.category}</span>
+                        <div class="expense-content">
+                            <div class="expense-icon ${iconClass}">${emoji}</div>
+                            <div class="expense-details">
+                                <div class="expense-title">
+                                    ${expense.title}
+                                    <span class="expense-category ${categoryClass}">${expense.category}</span>
+                                </div>
+                                <div class="expense-date">${formattedDate}</div>
+                                ${expense.description ? `<div class="expense-description">${expense.description}</div>` : ''}
                             </div>
-                            <div class="expense-date">${formattedDate} · ${expense.type === 'recurring' ? 'Recurring' : 'One-off'}</div>
-                            ${expense.description ? `<div class="expense-description">${expense.description}</div>` : ''}
                         </div>
-                        <div class="expense-amount">${formatCurrency(expense.amount)}</div>
+                        <div>
+                            <div class="expense-amount">${formatCurrency(expense.amount)}</div>
+                            <div class="expense-type">${expense.type === 'recurring' ? 'Recurring' : 'One-off'}</div>
+                        </div>
                     `;
                     
                     // Add click handler to view/edit expense
@@ -1423,6 +1697,40 @@
                 });
                 
                 historyList.appendChild(monthContainer);
+            });
+        };
+        
+        // Populate month jump selector
+        const populateMonthJumpSelector = (groupedByMonth) => {
+            const monthJumpSelector = document.getElementById('monthJumpSelector');
+            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            
+            // Clear existing options
+            monthJumpSelector.innerHTML = '<option value="">Jump to Month</option>';
+            
+            // Sort months descending
+            const sortedMonths = Object.keys(groupedByMonth).sort((a, b) => b - a);
+            
+            // Add options for each month
+            sortedMonths.forEach(month => {
+                const option = document.createElement('option');
+                option.value = month;
+                option.textContent = monthNames[month];
+                monthJumpSelector.appendChild(option);
+            });
+            
+            // Add event listener for month selection
+            monthJumpSelector.addEventListener('change', function() {
+                if (this.value) {
+                    const monthElement = document.getElementById(`month-${this.value}`);
+                    if (monthElement) {
+                        monthElement.scrollIntoView({ behavior: 'smooth' });
+                    }
+                    // Reset selector after jumping
+                    setTimeout(() => {
+                        this.value = '';
+                    }, 500);
+                }
             });
         };
         
@@ -1608,48 +1916,20 @@
                 'Other': '#607D8B'
             };
             
-            // Create pie chart segments
-            let startAngle = 0;
-            const radius = 50;
-            const cx = 50;
-            const cy = 50;
-            
             // Sort categories by amount (highest first)
             const sortedCategories = Object.entries(categoryTotals)
                 .sort((a, b) => b[1] - a[1]);
-            
-            sortedCategories.forEach(([category, amount]) => {
-                const percentage = (amount / total) * 100;
-                const angleSize = (percentage / 100) * 360;
-                const endAngle = startAngle + angleSize;
                 
-                // Calculate coordinates for pie slice
-                const startRadians = (startAngle - 90) * Math.PI / 180;
-                const endRadians = (endAngle - 90) * Math.PI / 180;
+            // If there's only one category, create a special circle instead of a pie chart
+            if (sortedCategories.length === 1) {
+                const [category, amount] = sortedCategories[0];
+                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                circle.setAttribute('cx', '50');
+                circle.setAttribute('cy', '50');
+                circle.setAttribute('r', '50');
+                circle.setAttribute('fill', colors[category] || '#607D8B');
                 
-                const x1 = cx + radius * Math.cos(startRadians);
-                const y1 = cy + radius * Math.sin(startRadians);
-                const x2 = cx + radius * Math.cos(endRadians);
-                const y2 = cy + radius * Math.sin(endRadians);
-                
-                // Create path for pie slice
-                const largeArcFlag = angleSize > 180 ? 1 : 0;
-                const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-                
-                // Move to center, line to first point, arc to second point, close path
-                const d = [
-                    `M ${cx} ${cy}`,
-                    `L ${x1} ${y1}`,
-                    `A ${radius} ${radius} 0 ${largeArcFlag} 1 ${x2} ${y2}`,
-                    'Z'
-                ].join(' ');
-                
-                path.setAttribute('d', d);
-                path.setAttribute('fill', colors[category] || '#607D8B');
-                path.setAttribute('stroke', 'white');
-                path.setAttribute('stroke-width', '1');
-                
-                svg.appendChild(path);
+                svg.appendChild(circle);
                 
                 // Add to legend
                 const legendItem = document.createElement('div');
@@ -1658,14 +1938,66 @@
                 legendItem.innerHTML = `
                     <div class="legend-color" style="background-color: ${colors[category] || '#607D8B'}"></div>
                     <div class="legend-text">${category}</div>
-                    <div class="legend-value">${percentage.toFixed(1)}% (${formatCurrency(amount)})</div>
+                    <div class="legend-value">100% (${formatCurrency(amount)})</div>
                 `;
                 
                 categoryLegend.appendChild(legendItem);
+            } else {
+                // Create pie chart segments
+                let startAngle = 0;
+                const radius = 50;
+                const cx = 50;
+                const cy = 50;
                 
-                // Update start angle for next slice
-                startAngle = endAngle;
-            });
+                sortedCategories.forEach(([category, amount]) => {
+                    const percentage = (amount / total) * 100;
+                    const angleSize = (percentage / 100) * 360;
+                    const endAngle = startAngle + angleSize;
+                    
+                    // Calculate coordinates for pie slice
+                    const startRadians = (startAngle - 90) * Math.PI / 180;
+                    const endRadians = (endAngle - 90) * Math.PI / 180;
+                    
+                    const x1 = cx + radius * Math.cos(startRadians);
+                    const y1 = cy + radius * Math.sin(startRadians);
+                    const x2 = cx + radius * Math.cos(endRadians);
+                    const y2 = cy + radius * Math.sin(endRadians);
+                    
+                    // Create path for pie slice
+                    const largeArcFlag = angleSize > 180 ? 1 : 0;
+                    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                    
+                    // Move to center, line to first point, arc to second point, close path
+                    const d = [
+                        `M ${cx} ${cy}`,
+                        `L ${x1} ${y1}`,
+                        `A ${radius} ${radius} 0 ${largeArcFlag} 1 ${x2} ${y2}`,
+                        'Z'
+                    ].join(' ');
+                    
+                    path.setAttribute('d', d);
+                    path.setAttribute('fill', colors[category] || '#607D8B');
+                    path.setAttribute('stroke', 'white');
+                    path.setAttribute('stroke-width', '1');
+                    
+                    svg.appendChild(path);
+                    
+                    // Add to legend
+                    const legendItem = document.createElement('div');
+                    legendItem.className = 'legend-item';
+                    
+                    legendItem.innerHTML = `
+                        <div class="legend-color" style="background-color: ${colors[category] || '#607D8B'}"></div>
+                        <div class="legend-text">${category}</div>
+                        <div class="legend-value">${percentage.toFixed(1)}% (${formatCurrency(amount)})</div>
+                    `;
+                    
+                    categoryLegend.appendChild(legendItem);
+                    
+                    // Update start angle for next slice
+                    startAngle = endAngle;
+                });
+            }
             
             categoryPie.appendChild(svg);
         };
@@ -1677,9 +2009,14 @@
             categories.forEach(category => {
                 const categoryItem = document.createElement('div');
                 categoryItem.className = 'expense-item';
+                const emoji = categoryEmojis[category] || '📦';
+                const iconClass = `expense-icon-${category.toLowerCase()}`;
                 
                 categoryItem.innerHTML = `
-                    <div class="expense-title">${category}</div>
+                    <div class="expense-content">
+                        <div class="expense-icon ${iconClass}">${emoji}</div>
+                        <div class="expense-title">${category}</div>
+                    </div>
                     ${category !== 'Other' ? `
                         <button class="delete-category" data-category="${category}" style="background: none; border: none; color: var(--danger-color); padding: 8px; border-radius: 50%;">
                             ❌
@@ -1981,9 +2318,16 @@
             tabs.forEach(tab => tab.classList.remove('active'));
             tabContents.forEach(content => content.classList.remove('active'));
             
-            // Show/hide dashboard tabs based on view
+            // Show/hide dashboard-specific elements
             const dashboardTabs = document.getElementById('dashboardTabs');
+            const monthPicker = document.querySelector('.month-picker');
+            
+            // Only show tabs and month picker on dashboard
             dashboardTabs.style.display = (view === 'dashboard') ? 'flex' : 'none';
+            monthPicker.style.display = (view === 'dashboard') ? 'flex' : 'none';
+            
+            // Show/hide overview section based on view
+            dashboardOverview.style.display = (view === 'dashboard') ? 'flex' : 'none';
             
             if (view === 'dashboard') {
                 document.querySelector('[data-tab="expenses"]').classList.add('active');
@@ -2022,6 +2366,12 @@
                 } catch (e) {
                     console.error('Error parsing saved categories:', e);
                 }
+            }
+            
+            // Check for saved dark mode preference
+            if (localStorage.getItem('darkMode') === 'enabled') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('darkModeToggle').checked = true;
             }
             
             // Initialize UI
@@ -2150,6 +2500,17 @@
                 }
             });
             
+            // Dark mode toggle
+            document.getElementById('darkModeToggle').addEventListener('change', function() {
+                if (this.checked) {
+                    document.body.classList.add('dark-mode');
+                    localStorage.setItem('darkMode', 'enabled');
+                } else {
+                    document.body.classList.remove('dark-mode');
+                    localStorage.setItem('darkMode', 'disabled');
+                }
+            });
+            
             // Handle physical back button on mobile
             window.addEventListener('popstate', (e) => {
                 // If a modal is open, close it instead of navigating back
@@ -2185,7 +2546,7 @@
             
             // Get form values
             const title = document.getElementById('expenseTitle').value.trim();
-            const amount = parseFloat(document.getElementById('expenseAmount').value);
+            const amount = parseInt(document.getElementById('expenseAmount').value);
             const date = document.getElementById('expenseDate').value;
             const category = document.getElementById('expenseCategory').value;
             const type = document.getElementById('expenseType').value;
